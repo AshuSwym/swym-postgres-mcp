@@ -1,0 +1,243 @@
+{
+    "fields": [
+        {
+            "name": "variant_id",
+            "description": "Unique identifier for the product variant",
+            "type": "Integer",
+            "example": 123456,
+            "required": true,
+            "isIndex": true,
+            "isPrimaryKey": true,
+            "isForeignKey": false,
+            "isUnique": true,
+            "isNullable": false,
+            "token": [
+                "variant id",
+                "variant identifier",
+                "product variant id",
+                "product variant identifier"
+            ]
+        },
+        {
+            "name": "product_id",
+            "description": "Unique identifier for the product this variant belongs to",
+            "type": "Integer",
+            "example": 654321,
+            "required": true,
+            "isIndex": true,
+            "isPrimaryKey": false,
+            "isForeignKey": true,
+            "isUnique": false,
+            "isNullable": false,
+            "token": [
+                "product id",
+                "product identifier",
+                "product ID"
+            ]
+        },
+        {
+            "name": "merchant_id",
+            "description": "Unique identifier for the merchant also termed as PID. It's SHA256 hash of the merchant's myshopify domain",
+            "type": "String",
+            "example": "abc123xyz...",
+            "required": true,
+            "isIndex": true,
+            "isPrimaryKey": true,
+            "isForeignKey": true,
+            "isUnique": true,
+            "isNullable": false,
+            "token": [
+                "merchant id",
+                "merchant identifier",
+                "merchant ID",
+                "PID",
+                "merchant PID"
+            ]
+        },
+        {
+            "name": "external_product_id",
+            "description": "External identifier for the product, typically from the merchant's system",
+            "type": "String",
+            "example": "prod_ext_001",
+            "required": true,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": false,
+            "token": [
+                "external product id",
+                "external product identifier",
+                "external ID"
+            ]
+        },
+        {
+            "name": "sku",
+            "description": "Stock keeping unit, a merchant-defined identifier for inventory management",
+            "type": "String",
+            "example": "SKU12345",
+            "required": false,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": true,
+            "token": [
+                "sku",
+                "stock keeping unit"
+            ]
+        },
+        {
+            "name": "product_type",
+            "description": "The type/category of the product variant",
+            "type": "String",
+            "example": "t-shirt",
+            "required": false,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": true,
+            "token": [
+                "product type",
+                "type"
+            ]
+        },
+        {
+            "name": "title",
+            "description": "Title of the product variant",
+            "type": "String",
+            "example": "Red Large T-Shirt",
+            "required": true,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": false,
+            "token": [
+                "title",
+                "product title",
+                "variant title"
+            ]
+        },
+        {
+            "name": "description",
+            "description": "Description of the product variant",
+            "type": "String",
+            "example": "A soft red t-shirt in size large",
+            "required": false,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": true,
+            "token": [
+                "description",
+                "variant description",
+                "product description"
+            ]
+        },
+        {
+            "name": "uri",
+            "description": "Relative URI to the product variant page",
+            "type": "String",
+            "example": "/products/red-tshirt-large",
+            "required": false,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": true,
+            "token": [
+                "uri",
+                "url",
+                "product link"
+            ]
+        },
+        {
+            "name": "image_url",
+            "description": "URL to the product variant image",
+            "type": "String",
+            "example": "https://cdn.shopify.com/image.jpg",
+            "required": false,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": true,
+            "token": [
+                "image url",
+                "image",
+                "product image"
+            ]
+        },
+        {
+            "name": "tags",
+            "description": "Comma-separated tags associated with the variant",
+            "type": "String",
+            "example": "clothing, t-shirt, red",
+            "required": false,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": true,
+            "token": [
+                "tags",
+                "product tags",
+                "labels"
+            ]
+        },
+        {
+            "name": "quantity",
+            "description": "Current available quantity of the variant",
+            "type": "Integer",
+            "example": 10,
+            "required": false,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": true,
+            "token": [
+                "quantity",
+                "stock",
+                "available quantity"
+            ]
+        },
+        {
+            "name": "old_quantity",
+            "description": "Previous recorded quantity of the variant",
+            "type": "Integer",
+            "example": 12,
+            "required": false,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": true,
+            "token": [
+                "old quantity",
+                "previous stock",
+                "stock history"
+            ]
+        },
+        {
+            "name": "price",
+            "description": "Current price of the product variant",
+            "type": "Float",
+            "example": 19.99,
+            "required": false,
+            "isIndex": false,
+            "isPrimaryKey": false,
+            "isForeignKey": false,
+            "isUnique": false,
+            "isNullable": true,
+            "token": [
+                "price",
+                "variant price",
+                "product price"
+            ]
+        }
+    ]
+}

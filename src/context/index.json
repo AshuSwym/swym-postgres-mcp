@@ -1,0 +1,14 @@
+[
+    {
+        "tableName": "swymbi.product_variants",
+        "tableDescription": "Product variants data",
+        "fileName": "product_variants.json",
+        "token": [
+            "product variants",
+            "product variant data",
+            "product data",
+            "product details",
+            "product information"
+        ]
+    }
+]
