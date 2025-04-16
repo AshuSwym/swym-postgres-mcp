@@ -4,23 +4,28 @@
     "main": "index.js",
     "type": "module",
     "bin": {
-        "weather": "./build/index.js"
+        "swym-postgres-mcp": "./build/index.js"
     },
     "files": [
         "build"
     ],
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc && chmod 755 build/index.js"
+        "build": "tsc && chmod 755 build/index.js",
+        "start": "node build/index.js"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "description": "",
     "dependencies": {
+        "@google/generative-ai": "^0.24.0",
         "@modelcontextprotocol/sdk": "^1.9.0",
         "prettier": "^3.5.3",
         "typescript": "^5.8.3",
         "zod": "^3.24.2"
+    },
+    "devDependencies": {
+        "@types/node": "^22.14.1"
     }
 }
