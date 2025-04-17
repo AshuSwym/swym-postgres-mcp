@@ -1,0 +1,144 @@
+{
+    "fields": [
+      {
+        "name": "wishlist_item_id",
+        "description": "Unique identifier for each wishlist item",
+        "type": "Integer",
+        "example": 10001,
+        "required": true,
+        "isIndex": true,
+        "isPrimaryKey": true,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "wishlist item id",
+          "wishlist_item_id",
+          "wishlist identifier"
+        ]
+      },
+      {
+        "name": "shopper_id",
+        "description": "Unique identifier for the shopper",
+        "type": "Integer",
+        "example": 2002,
+        "required": true,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": true,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "shopper id",
+          "shopper identifier",
+          "user id"
+        ]
+      },
+      {
+        "name": "merchant_id",
+        "description": "Unique identifier for the merchant also termed as PID. It's SHA256 hash of the merchant's myshopify domain",
+        "type": "String",
+        "example": "abc123xyz...",
+        "required": true,
+        "isIndex": true,
+        "isPrimaryKey": true,
+        "isForeignKey": true,
+        "isUnique": true,
+        "isNullable": false,
+        "token": [
+          "merchant id",
+          "merchant identifier",
+          "merchant ID",
+          "PID",
+          "merchant PID"
+        ]
+      },
+      {
+        "name": "list_name",
+        "description": "Name of the wishlist list (e.g., My Favorites)",
+        "type": "String",
+        "example": "My Favorites",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "list name",
+          "wishlist name",
+          "wishlist title"
+        ]
+      },
+      {
+        "name": "product_variant_id",
+        "description": "Unique identifier for the product variant",
+        "type": "Integer",
+        "example": 123456,
+        "required": true,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": true,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "variant id",
+          "variant identifier",
+          "product variant id",
+          "product variant identifier"
+        ]
+      },
+      {
+        "name": "add_date",
+        "description": "Timestamp when the item was added to the wishlist",
+        "type": "Timestamp",
+        "example": "2024-04-15T13:45:30Z",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "add date",
+          "added at",
+          "wishlist added time"
+        ]
+      },
+      {
+        "name": "removal_date",
+        "description": "Timestamp when the item was removed from the wishlist",
+        "type": "Timestamp",
+        "example": "2024-05-01T09:30:00Z",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "removal date",
+          "removed at",
+          "wishlist removal time"
+        ]
+      },
+      {
+        "name": "removal_reason",
+        "description": "Reason why the item was removed from the wishlist",
+        "type": "String",
+        "example": "Purchased elsewhere",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "removal reason",
+          "reason for removal",
+          "deletion reason"
+        ]
+      }
+    ]
+  }
+  

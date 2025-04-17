@@ -1,0 +1,143 @@
+{
+    "fields": [
+      {
+        "name": "order_id",
+        "description": "Unique identifier for the order",
+        "type": "Integer",
+        "example": 9001001,
+        "required": true,
+        "isIndex": true,
+        "isPrimaryKey": true,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "order id",
+          "order identifier",
+          "transaction id"
+        ]
+      },
+      {
+        "name": "merchant_id",
+        "description": "Unique identifier for the merchant also termed as PID. It's SHA256 hash of the merchant's myshopify domain",
+        "type": "String",
+        "example": "abc123xyz...",
+        "required": true,
+        "isIndex": true,
+        "isPrimaryKey": true,
+        "isForeignKey": true,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "merchant id",
+          "merchant identifier",
+          "merchant ID",
+          "PID",
+          "merchant PID"
+        ]
+      },
+      {
+        "name": "shopper_id",
+        "description": "Unique identifier for the shopper who placed the order",
+        "type": "Integer",
+        "example": 2002,
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": true,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "shopper id",
+          "shopper identifier",
+          "user id"
+        ]
+      },
+      {
+        "name": "email",
+        "description": "Email address associated with the order",
+        "type": "String",
+        "example": "shopper@example.com",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "email",
+          "shopper email",
+          "order email"
+        ]
+      },
+      {
+        "name": "mobile_number",
+        "description": "Mobile number associated with the order",
+        "type": "String",
+        "example": "+1234567890",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "mobile number",
+          "phone number",
+          "contact number"
+        ]
+      },
+      {
+        "name": "order_date",
+        "description": "Timestamp when the order was placed",
+        "type": "Timestamp",
+        "example": "2024-04-17T14:23:00Z",
+        "required": true,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "order date",
+          "purchase date",
+          "order timestamp"
+        ]
+      },
+      {
+        "name": "session_id",
+        "description": "Identifier of the session during which the order was placed",
+        "type": "String",
+        "example": "sess_abc123xyz",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "session id",
+          "order session",
+          "checkout session"
+        ]
+      },
+      {
+        "name": "platform_order_id",
+        "description": "Identifier for the order in the platform (e.g., Shopify, BigCommerce)",
+        "type": "String",
+        "example": "#1001",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "platform order id",
+          "external order id",
+          "shopify order id"
+        ]
+      }
+    ]
+  }
+  

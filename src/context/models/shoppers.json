@@ -1,0 +1,76 @@
+{
+    "fields": [
+      {
+        "name": "shopper_id",
+        "description": "Unique identifier for the shopper",
+        "type": "Integer",
+        "example": 10101,
+        "required": true,
+        "isIndex": false,
+        "isPrimaryKey": true,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "shopper id",
+          "shopper identifier",
+          "user id"
+        ]
+      },
+      {
+        "name": "merchant_id",
+        "description": "Unique identifier for the merchant also termed as PID. It's SHA256 hash of the merchant's myshopify domain",
+        "type": "String",
+        "example": "abc123xyz...",
+        "required": true,
+        "isIndex": true,
+        "isPrimaryKey": true,
+        "isForeignKey": true,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "merchant id",
+          "merchant identifier",
+          "merchant ID",
+          "PID",
+          "merchant PID"
+        ]
+      },
+      {
+        "name": "email",
+        "description": "Email address of the shopper",
+        "type": "String",
+        "example": "shopper@example.com",
+        "required": true,
+        "isIndex": true,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "email",
+          "shopper email",
+          "user email",
+          "customer email"
+        ]
+      },
+      {
+        "name": "created_at",
+        "description": "Timestamp when the shopper record was created",
+        "type": "Timestamp",
+        "example": "2024-04-17T12:00:00Z",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "created at",
+          "creation time",
+          "shopper registration date"
+        ]
+      }
+    ]
+  }
+  

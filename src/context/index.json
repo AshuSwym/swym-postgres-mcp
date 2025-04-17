@@ -10,5 +10,83 @@
             "product details",
             "product information"
         ]
+    },
+    {
+        "tableName": "swymbi.wishlist_items",
+        "tableDescription": "This is the list of wishlisted items by Shoppers",
+        "fileName": "wishlist_items.json",
+        "token": [
+            "wishlist items",
+            "wishlist actions data",
+            "wishlist data",
+            "wishlist content",
+            "wishlist details",
+            "wishlisted items",
+            "wishlisted products",
+            "wishlist information"]
+    },
+    {
+        "tableName": "swymbi.shoppers",
+        "tableDescription": "This is the list of Shoppers who have added items to their wishlist",
+        "fileName": "shoppers.json",
+        "token": [
+            "shoppers",
+            "shopper data",
+            "shopper information",
+            "shopper details",
+            "shopper profile",
+            "shopper list",
+            "customers",
+            "customer data",
+            "customer information",
+            "customer details",
+            "customer profile",
+            "customer list",
+            "users",
+            "user data",
+            "user information",
+            "user details",
+            "user profile",
+            "user list"
+        ]
+
+    },
+    {
+        "tableName": "swymbi.orders",
+        "tableDescription": "This is the list of orders placed by Shoppers",
+        "fileName": "orders.json",
+        "token": [
+            "orders",
+            "order data",
+            "order information",
+            "order details",
+            "order history",
+            "order list",
+            "purchases",
+            "purchase data",
+            "purchase information",
+            "purchase details",
+            "purchase history",
+            "purchase list"
+        ]
+    },
+    {
+        "tableName":"swymbi.order_items",
+        "tableDescription": "This is the list of items in each order placed by Shoppers",
+        "fileName": "order_items.json",
+        "token":[
+            "order items",
+            "order item data",
+            "order item information",
+            "order item details",
+            "order item history",
+            "order item list",
+            "purchased items",
+            "purchased item data",
+            "purchased item information",
+            "purchased item details",
+            "purchased item history",
+            "purchased item list"
+        ]
     }
 ]
