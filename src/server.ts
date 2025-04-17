@@ -153,6 +153,27 @@ const server = new Server(
                         required: ["content", "isError"],
                     },
                 },
+                fetch_merchant_config: {
+                    description: "Fetch the backend and triggers config for a merchant by PID (merchant_id).",
+                    inputSchema: {
+                        type: "object",
+                        properties: {
+                            pid: {
+                                type: "string",
+                                description: "The merchant ID (pid) to look up configs for.",
+                            },
+                        },
+                        required: ["pid"],
+                    },
+                    outputSchema: {
+                        type: "object",
+                        properties: {
+                            response: { type: "object" },
+                            isError: { type: "boolean" },
+                        },
+                        required: ["response", "isError"],
+                    },
+                },
                 send_slack_alert: {
                     description: "Send an alert to Slack with a given message.",
                     inputSchema: {
@@ -340,6 +361,17 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 },
             },
             {
+                name: "fetch_merchant_config",
+                description: "Fetch merchant config and trigger settings for the given pid.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        pid: { type: "string" },
+                    },
+                    required: ["pid"],
+                },
+            },
+            {
                 name: "send_slack_alert",
                 description: "Send an alert to Slack with a given message.",
                 inputSchema: {
@@ -462,6 +494,45 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         } catch (error) {
             return {
                 content: [{ type: "text", text: String(error) }],
+                isError: true,
+            };
+        }
+    }
+
+    if (name === "fetch_merchant_config") {
+        const { pid } = request.params.arguments as { pid: string };
+
+        try {
+            const apiUrl = `https://dashboard-dev.internalswym.com/intersvc/merchant/configs/backend?pid=${pid}`;
+            const response = await fetch(apiUrl, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "x-swym-hmac-sha256": "12345",
+                    "x-swym-rchl": "12345",
+                    "x-swym-src": "swym-install",
+                },
+            });
+
+            const json = await response.json();
+
+            return {
+                content: [
+                    {
+                        type: "text",
+                        text: JSON.stringify(json, null, 2),
+                    },
+                ],
+                isError: false,
+            };
+        } catch (error) {
+            return {
+                content: [
+                    {
+                        type: "text",
+                        text: `Error fetching merchant config: ${error}`,
+                    },
+                ],
                 isError: true,
             };
         }
