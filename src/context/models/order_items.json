@@ -1,0 +1,144 @@
+{
+    "fields": [
+      {
+        "name": "order_id",
+        "description": "Unique identifier for the order this item belongs to",
+        "type": "Integer",
+        "example": 9001001,
+        "required": true,
+        "isIndex": true,
+        "isPrimaryKey": true,
+        "isForeignKey": true,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "order id",
+          "order identifier"
+        ]
+      },
+      {
+        "name": "order_line_item_id",
+        "description": "Unique identifier for the line item within the order",
+        "type": "Integer",
+        "example": 1,
+        "required": true,
+        "isIndex": false,
+        "isPrimaryKey": true,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "line item id",
+          "order line id",
+          "item id"
+        ]
+      },
+      {
+        "name": "merchant_id",
+        "description": "Unique identifier for the merchant also termed as PID. It's SHA256 hash of the merchant's myshopify domain",
+        "type": "String",
+        "example": "abc123xyz...",
+        "required": true,
+        "isIndex": true,
+        "isPrimaryKey": true,
+        "isForeignKey": true,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "merchant id",
+          "merchant identifier",
+          "merchant ID",
+          "PID",
+          "merchant PID"
+        ]
+      },
+      {
+        "name": "external_product_master_id",
+        "description": "External master identifier for the product, typically from the merchant's system",
+        "type": "String",
+        "example": "master_prod_ext_001",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "external product master id",
+          "external master id",
+          "master product id"
+        ]
+      },
+      {
+        "name": "external_product_id",
+        "description": "External identifier for the specific product, typically from the merchant's system",
+        "type": "String",
+        "example": "prod_ext_001",
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "external product id",
+          "external product identifier",
+          "external ID"
+        ]
+      },
+      {
+        "name": "product_variant_id",
+        "description": "Unique identifier for the product variant",
+        "type": "Integer",
+        "example": 123456,
+        "required": false,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": true,
+        "isUnique": false,
+        "isNullable": true,
+        "token": [
+          "variant id",
+          "variant identifier",
+          "product variant id",
+          "product variant identifier"
+        ]
+      },
+      {
+        "name": "price",
+        "description": "Price of the item at the time of order",
+        "type": "Float",
+        "example": 19.99,
+        "required": true,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "price",
+          "item price",
+          "order item price"
+        ]
+      },
+      {
+        "name": "quantity",
+        "description": "Number of units of the product in this order line",
+        "type": "Integer",
+        "example": 2,
+        "required": true,
+        "isIndex": false,
+        "isPrimaryKey": false,
+        "isForeignKey": false,
+        "isUnique": false,
+        "isNullable": false,
+        "token": [
+          "quantity",
+          "ordered quantity",
+          "order quantity",
+          "item quantity"
+        ]
+      }
+    ]
+  }
+  

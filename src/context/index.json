@@ -50,5 +50,43 @@
             "user list"
         ]
 
+    },
+    {
+        "tableName": "swymbi.orders",
+        "tableDescription": "This is the list of orders placed by Shoppers",
+        "fileName": "orders.json",
+        "token": [
+            "orders",
+            "order data",
+            "order information",
+            "order details",
+            "order history",
+            "order list",
+            "purchases",
+            "purchase data",
+            "purchase information",
+            "purchase details",
+            "purchase history",
+            "purchase list"
+        ]
+    },
+    {
+        "tableName":"swymbi.order_items",
+        "tableDescription": "This is the list of items in each order placed by Shoppers",
+        "fileName": "order_items.json",
+        "token":[
+            "order items",
+            "order item data",
+            "order item information",
+            "order item details",
+            "order item history",
+            "order item list",
+            "purchased items",
+            "purchased item data",
+            "purchased item information",
+            "purchased item details",
+            "purchased item history",
+            "purchased item list"
+        ]
     }
 ]
