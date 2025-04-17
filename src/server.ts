@@ -20,7 +20,6 @@ import {
 
 import pg from "pg";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { any, string } from "zod";
 
 // Access environment variables
 const PG_DBNAME = process.env.PG_DBNAME;
