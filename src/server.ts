@@ -15,7 +15,7 @@ import {
     CallToolRequestSchema,
     ListResourcesRequestSchema,
     ListToolsRequestSchema,
-    ReadResourceRequestSchema
+    ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
 import pg from "pg";
@@ -40,7 +40,7 @@ if (!SLACK_WEBHOOK_URL) {
 }
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" }); // Better for reasoning and long context
 
 const server = new Server(
     {
@@ -118,13 +118,15 @@ const server = new Server(
                     },
                 },
                 fetch_merchant_config: {
-                    description: "Fetch the backend and triggers config for a merchant by PID (merchant_id).",
+                    description:
+                        "Fetch the backend and triggers config for a merchant by PID (merchant_id).",
                     inputSchema: {
                         type: "object",
                         properties: {
                             pid: {
                                 type: "string",
-                                description: "The merchant ID (pid) to look up configs for.",
+                                description:
+                                    "The merchant ID (pid) to look up configs for.",
                             },
                         },
                         required: ["pid"],
@@ -171,7 +173,7 @@ const server = new Server(
                         },
                         required: ["content", "isError"],
                     },
-                }
+                },
             },
         },
     },
@@ -311,7 +313,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             },
             {
                 name: "fetch_merchant_config",
-                description: "Fetch merchant config and trigger settings for the given pid.",
+                description:
+                    "Fetch merchant config and trigger settings for the given pid.",
                 inputSchema: {
                     type: "object",
                     properties: {
@@ -416,26 +419,99 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     if (name === "fetch_merchant_config") {
         const { pid } = request.params.arguments as { pid: string };
+        const encodedPid = encodeURIComponent(pid);
 
         try {
-            const apiUrl = `https://dashboard-dev.internalswym.com/intersvc/merchant/configs/backend?pid=${pid}`;
-            const response = await fetch(apiUrl, {
-                method: "GET",
-                headers: {
-                    Accept: "application/json",
-                    "x-swym-hmac-sha256": "12345",
-                    "x-swym-rchl": "12345",
-                    "x-swym-src": "swym-install",
-                },
-            });
+            const backendApiUrl = `https://dashboard-dev.internalswym.com/intersvc/merchant/configs/backend?pid=${encodedPid}`;
+            const mongoApiUrl = `https://dashboard-dev.internalswym.com/intersvc/merchant/configs/triggers?pid=${encodedPid}`;
 
-            const json = await response.json();
+            const [backend_response, mongo_response] = await Promise.all([
+                fetch(backendApiUrl, {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        "x-swym-hmac-sha256":
+                            "02dedccb9b87a03c5bdfdac9aac1e736eaac7ab55284e9b2b1230d38e32b86f2",
+                        "x-swym-rchl": "ConfigGET",
+                        "x-swym-src": "swym-install",
+                    },
+                }),
+                fetch(mongoApiUrl, {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        "x-swym-hmac-sha256":
+                            "02dedccb9b87a03c5bdfdac9aac1e736eaac7ab55284e9b2b1230d38e32b86f2",
+                        "x-swym-rchl": "ConfigGET",
+                        "x-swym-src": "swym-install",
+                    },
+                }),
+            ]);
+
+            if (!backend_response.ok) {
+                throw new Error(
+                    `Backend API request failed with status: ${backend_response.status}`,
+                );
+            }
+            if (!mongo_response.ok) {
+                throw new Error(
+                    `Mongo API request failed with status: ${mongo_response.status}`,
+                );
+            }
+
+            const backend_json = await backend_response.json();
+            const mongo_json = await mongo_response.json();
+
+            const extractedData = {
+                EventStreamConfig: backend_json.config?.EventStreamConfig,
+                Integrations: backend_json.config?.Integrations,
+                TriggerRules: backend_json.config?.TriggerRules,
+            };
+
+            let shopifyWebhooks = null;
+            try {
+                const shopToken = backend_json.config?.Apps?.[0]?.ShopToken;
+                if (!shopToken) {
+                    throw new Error("ShopToken not found in backend config.");
+                }
+                const shopifyApiUrl = `https://${backend_json.config?.PlatformURL}/admin/api/2024-04/webhooks.json`;
+
+                const shopifyResponse = await fetch(shopifyApiUrl, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Shopify-Access-Token": shopToken,
+                    },
+                });
+
+                if (!shopifyResponse.ok) {
+                    throw new Error(
+                        `Shopify API request failed with status: ${shopifyResponse.status}`,
+                    );
+                }
+
+                const shopifyJson = await shopifyResponse.json();
+                shopifyWebhooks = shopifyJson.webhooks;
+            } catch (shopifyError) {
+                console.error(
+                    `Error fetching Shopify webhooks: ${shopifyError}`,
+                );
+                shopifyWebhooks = {
+                    error: `Failed to fetch webhooks: ${shopifyError}`,
+                };
+            }
 
             return {
                 content: [
                     {
                         type: "text",
-                        text: JSON.stringify(json, null, 2),
+                        backend_text: JSON.stringify(extractedData, null, 2),
+                        mongo_text: JSON.stringify(mongo_json, null, 2),
+                        shopify_webhooks: JSON.stringify(
+                            shopifyWebhooks,
+                            null,
+                            2,
+                        ),
                     },
                 ],
                 isError: false,
