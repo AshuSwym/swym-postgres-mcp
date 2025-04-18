@@ -15,7 +15,7 @@ import {
     CallToolRequestSchema,
     ListResourcesRequestSchema,
     ListToolsRequestSchema,
-    ReadResourceRequestSchema,
+    ReadResourceRequestSchema
 } from "@modelcontextprotocol/sdk/types.js";
 
 import pg from "pg";
@@ -40,7 +40,7 @@ if (!SLACK_WEBHOOK_URL) {
 }
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" }); // Better for reasoning and long context
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
 const server = new Server(
     {
@@ -94,42 +94,6 @@ const server = new Server(
                             sql: { type: "string" },
                         },
                         required: ["sql"],
-                    },
-                    outputSchema: {
-                        type: "object",
-                        properties: {
-                            content: {
-                                type: "array",
-                                items: {
-                                    type: "object",
-                                    properties: {
-                                        type: {
-                                            type: "string",
-                                            enum: ["text"],
-                                        },
-                                        text: { type: "string" },
-                                    },
-                                    required: ["type", "text"],
-                                },
-                            },
-                            isError: { type: "boolean" },
-                        },
-                        required: ["content", "isError"],
-                    },
-                },
-                call_config_api: {
-                    description:
-                        "Call Swym internal API to fetch backend config for a merchant",
-                    inputSchema: {
-                        type: "object",
-                        properties: {
-                            merchant_pid: {
-                                type: "string",
-                                description:
-                                    "The Swym merchant PID (e.g., abc123)",
-                            },
-                        },
-                        required: ["merchant_pid"],
                     },
                     outputSchema: {
                         type: "object",
@@ -346,21 +310,6 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 },
             },
             {
-                name: "call_config_api",
-                description:
-                    "Call Swym internal API to fetch backend config for a merchant",
-                inputSchema: {
-                    type: "object",
-                    properties: {
-                        merchant_pid: {
-                            type: "string",
-                            description: "The Swym merchant PID (e.g., abc123)",
-                        },
-                    },
-                    required: ["merchant_pid"],
-                },
-            },
-            {
                 name: "fetch_merchant_config",
                 description: "Fetch merchant config and trigger settings for the given pid.",
                 inputSchema: {
@@ -400,9 +349,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
         const client = await pool.connect();
         try {
-            // Collect schema for all public tables
             const tableNamesRes = await client.query(
-                "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'",
+                "SELECT table_name FROM information_schema.tables WHERE table_schema = 'swymbi'",
             );
             const tableNames = tableNamesRes.rows.map((r) => r.table_name);
 
@@ -410,13 +358,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             prompt += "Here are the relevant table schemas:\n\n";
 
             for (const table of tableNames) {
-                const cols = await client.query(
+                const colsRes = await client.query(
                     "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = $1",
                     [table],
                 );
                 prompt += `Table "${table}":\n`;
-                cols.rows.forEach((c) => {
-                    prompt += `- ${c.column_name} (${c.data_type})\n`;
+                colsRes.rows.forEach((col) => {
+                    prompt += `- ${col.column_name} (${col.data_type})\n`;
                 });
                 prompt += "\n";
             }
@@ -463,39 +411,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         } finally {
             client.query("ROLLBACK").catch(() => {});
             client.release();
-        }
-    }
-
-    if (name === "call_config_api") {
-        const { merchant_pid } = request.params.arguments as {
-            merchant_pid: string;
-        };
-
-        const apiUrl = `https://dashboard-dev.internalswym.com/intersvc/merchant/configs/backend?pid=${merchant_pid}`;
-        try {
-            const response = await fetch(apiUrl, {
-                method: "GET",
-                headers: {
-                    Accept: "application/json",
-                    "x-swym-hmac-sha256": "12345",
-                    "x-swym-rchl": "12345",
-                    "x-swym-src": "swym-install",
-                },
-            });
-
-            const data = await response.json();
-
-            return {
-                content: [
-                    { type: "text", text: JSON.stringify(data, null, 2) },
-                ],
-                isError: false,
-            };
-        } catch (error) {
-            return {
-                content: [{ type: "text", text: String(error) }],
-                isError: true,
-            };
         }
     }
 
